@@ -115,7 +115,7 @@ function reopenStore(appInstance) {
 
           queryTracker.unsubscribe();
 
-          if (!queryTracker.recordArray.get('isUpdating')) {
+          if (queryTracker.recordArray && !queryTracker.recordArray.get('isUpdating')) {
             queryTracker.recordArray = null;
           }
         } else {
