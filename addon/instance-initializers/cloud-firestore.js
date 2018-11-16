@@ -133,6 +133,14 @@ function reopenStore(appInstance) {
                 queryTracker.recordArray.get('content').clear();
 
                 responses.forEach((record) => {
+                  // hack to refresh hasMany when an unloaded record comes back
+                  if (record._internalModel.modelName == 'deck') {
+                    record.get('readers').reload();
+                    record.get('contributors').reload();
+                    record.get('collaborators').reload();
+                    record.get('owners').reload();
+                    record.get('invites').reload();
+                  }
                   queryTracker.recordArray.get('content').pushObject(record._internalModel);
                 });
               });
