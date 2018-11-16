@@ -115,7 +115,7 @@ function reopenStore(appInstance) {
 
           queryTracker.unsubscribe();
 
-          if (!queryTracker.recordArray.get('isUpdating')) {
+          if (queryTracker.recordArray && !queryTracker.recordArray.get('isUpdating')) {
             queryTracker.recordArray = null;
           }
         } else {
@@ -130,18 +130,20 @@ function reopenStore(appInstance) {
 
             Promise.all(requests).then((responses) => {
               next(() => {
-                queryTracker.recordArray.get('content').clear();
+                if (queryTracker.recordArray) {
+                  queryTracker.recordArray.get('content').clear();
 
-                responses.forEach((record) => {
-                  // hack to refresh hasMany when an unloaded record comes back
-                  if (record._internalModel.modelName == 'deck') {
-                    record.get('readers').reload();
-                    record.get('contributors').reload();
-                    record.get('collaborators').reload();
-                    record.get('owners').reload();
-                    record.get('invites').reload();
-                  }
-                  queryTracker.recordArray.get('content').pushObject(record._internalModel);
+                  responses.forEach((record) => {
+                    // hack to refresh hasMany when an unloaded record comes back
+                    if (record._internalModel.modelName == 'deck') {
+                      record.get('readers').reload();
+                      record.get('contributors').reload();
+                      record.get('collaborators').reload();
+                      record.get('owners').reload();
+                      record.get('invites').reload();
+                    }
+                    queryTracker.recordArray.get('content').pushObject(record._internalModel);
+                  });
                 });
               });
             });
