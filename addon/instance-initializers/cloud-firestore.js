@@ -144,7 +144,7 @@ function reopenStore(appInstance) {
                     }
                     queryTracker.recordArray.get('content').pushObject(record._internalModel);
                   });
-                });
+                }
               });
             });
           }
