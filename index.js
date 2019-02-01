@@ -21,10 +21,5 @@ module.exports = {
 
     app.import('vendor/fastboot-shims/firebase/firebase-firestore.js');
     app.import('vendor/fastboot/firebase-firestore.js');
-
-    if (app.env !== 'production') {
-      app.import('node_modules/mock-cloud-firestore/dist/browser/mock-cloud-firestore.js');
-      app.import('vendor/shims/mock-cloud-firestore.js');
-    }
   },
 };
